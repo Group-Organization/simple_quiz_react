@@ -1,0 +1,9 @@
+{
+    "workbench.colorTheme": "One Dark Pro Flat",
+    "emmet.preferences": {
+    },
+    /* aggiunto parte sotto per includere JSX emmet*/
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+     }
+}
