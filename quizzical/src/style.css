@@ -10,6 +10,13 @@ body{
     align-items: center;
     background-color: rgba(208, 0, 255, 0.501);
 }
+.temp-logo{
+    width: 500px;
+    height: 500px;
+    position:absolute;
+}
+
+/* TODO edit this root component and .App */
 #root, .App{
     display:flex;
     flex-direction: column;

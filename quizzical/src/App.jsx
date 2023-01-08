@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
-import { decodeHtml } from "./helper_functions";
+import { decodeHtml, shuffle } from "./helper_functions";
 import Question from "./components/Question";
 import Confetti from "react-confetti"
+import Navbar from "./components/Navbar"
 
-function App() {
+export default function App() {
 
     // keep track of round played, starts at 0 in welcome page
   const [round, setRound ] = useState(0)
-    // state to hold array of quiz questions
-  const [quiz, setQuiz] = useState([]);
-  // on submit button set gameEnded = true, check answers and if 5/5 play confetti (maybe set separate state)
-  const [gameEnded, setGameEnded] = useState(false);
-  // new state for tracking selected answers, object with {id(key):userChoice(value)}
-  const [selected, setSelected] = useState({})
-  // keep track of result
+  // keep track of result for the round
   const [result, setResult]= useState(0)
   // keep track of global score
   const[globalScore, setGlobalScore] = useState(0)
+
+  // state to hold array of quiz questions
+  const [quiz, setQuiz] = useState([]);
+  // on submit button set gameEnded = true, check answers and if n/n play confetti
+  const [gameEnded, setGameEnded] = useState(false);
+  // new state for tracking selected answers, object with {id(key):userChoice(value)}
+  const [selected, setSelected] = useState({})
 
 
   // on round update sends a request to API
@@ -33,7 +35,7 @@ function App() {
         setSelected(userAnswers)
 
 
-        // add all answer options in one key, then decode the html content
+        // add all answer options in one key, then decode the html content and shuffle order
         let quizData = data.results.map((quest) => ({
             question: `${decodeHtml(quest.question)}`,
             all_answers: shuffle(
@@ -53,14 +55,9 @@ function App() {
     setSelected(prevState =>({...prevState, [id] :  prevState[id]== userChoice? "" : userChoice }))
   }
 
-  function shuffle(arr){
-        return arr.sort(() => Math.random() - 0.5)
-
-  }
 
   // generate <Question /> components, passing question, answer-options, the `selected` value for this question component and the function to handle setSelected
   const questions = quiz.map((item, index) => {
-
     return (
         <Question
         key={index}
@@ -74,9 +71,10 @@ function App() {
         );
     });
 
+
+
     useEffect(()=>{
         if(gameEnded == true){
-
             let score = 0
             // map over quiz array, for each question check if correct_answer == selected[id] value
             quiz.map((question, index) => {
@@ -84,13 +82,7 @@ function App() {
 
             })
         setResult(score)
-
         }
-        /* else { MA NON SO se ha senso in quanto non so se vengono azionati ogni volta che viene cliccato il tasto e la condizione è `false`, può essere che non vengano mai azionati
-            setSelected({})
-            setResult(0)
-
-        } */
     }, [gameEnded])
 
 
@@ -98,10 +90,11 @@ function App() {
     function newGame(){
         setRound(round => round +1)
         setGlobalScore(prevScore => prevScore + result)
-
         setGameEnded(false)
     }
 
+    // TODO add and edit Navbar
+    // <Navbar />
   return (
       <div className="App">
       {gameEnded && result == 3 && <Confetti />}
@@ -120,9 +113,7 @@ function App() {
                 onClick={()=> setGameEnded(true)}
                 >Submit</button>) }
 
-      {gameEnded && <div> correct = {result}/5</div>}
+      {gameEnded && <div> correct = {result}/NUM OF QUESTIONS</div>}
     </div>
   );
 }
-
-export default App;

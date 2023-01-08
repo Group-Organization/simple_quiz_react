@@ -3,12 +3,6 @@ import { useState, useEffect } from "react"
 
 export default function Question(props) {
 
-    // const [answers, setAnswers] = useState(props.answers)
-
-    // useEffect(() => {
-    //     setAnswers(prevOrder => prevOrder.sort(() => Math.random() - 0.5))
-    // }, [])
-
 
   function handleChoice(event) {
     // calls selectAnswer() function in App to set the onClick.target.value to `selected` state
@@ -46,8 +40,11 @@ export default function Question(props) {
 
   return (
     <div className="question">
-      <h4>{props.question}</h4>
-      <div className="choices">{choices}</div>
+        <h4> {props.question} </h4>
+        
+        <div className="choices">
+            {choices}
+        </div>
     </div>
   );
 }
