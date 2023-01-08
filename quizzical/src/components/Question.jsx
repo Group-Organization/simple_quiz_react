@@ -1,22 +1,26 @@
-import Choices from "./Choices";
-import { decodeHtml } from "../helper_functions";
-import { useState } from "react"
 
 export default function Question(props) {
-  const [answers, setAnswers] = useState(props.choices)
-  
+  function handleChoice(event) {
+    // calls selectAnswer() function in App to set the onClick.target.value to `selected` state
+    props.handleChoice(props.id, event.target.value);
+  }
 
-  // for each choice of the array, take raw html and decode before passing values
-  let choices = answers.map(raw_choice => {
-    // allows decoding 1 time intead of each value
-    const choice = decodeHtml(raw_choice)
-    return (
-      <button
-        key={choice}
-        className="question-options"
-        value={choice}
-        onClick={() => setAnswers(choice)} >{choice}</button> );
-  });
+    // map over array of choices to create button
+    let choices = props.choices.map((choice) => {
+        // adds selected class to the option saved in `selected` state
+        let dynamic_class =
+        props.selected != choice
+            ? "option" : "option selected";
+
+        return ( <button
+                        key={choice}
+                        className={dynamic_class}
+                        value={choice}
+                        onClick={handleChoice}
+                        >{choice}</button>
+                    );
+        });
+
 
   return (
     <div className="question">

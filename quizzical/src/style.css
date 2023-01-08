@@ -15,15 +15,23 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 70%;
-    height: 80%;
+    width: 90%;
+    padding:20px;
     border-radius: 50px;
     background-color: white;
 }
-.App{
-    height: 100%;
+.App {
+    flex-grow: grow;
 }
 
+.round-counter{
+    background-color: green;
+    margin:18px;
+    margin-top: -15px;;
+    padding:15px;
+    border-radius: 20px;;
+
+}
 
 .question {
     display: flex;
@@ -35,19 +43,50 @@ body{
     border-bottom: 5px solid rgba(0, 0, 0, 0.505);
     color: blueviolet;
     font-size: 22px;
-    padding: 5px;
+    padding: 15px;
     padding-bottom:15px;
     margin-bottom:20px;
+    width: 70%;
 }
 
-.question-options{
-    margin-right:10px;
+.choices{
+    display:flex;
+    flex-wrap: wrap ;
+    justify-content: center;
+    flex-grow: grow;
+}
+
+/* style for unselected answers */
+.option{
+    display: block;
+    margin: 5px;
     padding:8px;
     border-color: blueviolet;
     border-radius:12px;
     font-size:18px;
     font-weight: bolder;
     color:purple;
+}
+
+/* user selected answer */
+.selected{
+    background-color: rgba(19, 109, 183, 0.297);
+    border-color: rgba(19, 109, 183);
+    color: rgb(13, 78, 131);
+
+}
+/* wrong answer */
+.wrong{
+    background-color: rgba(183, 19, 19, 0.297);
+    border-color: rgb(153, 13, 19);
+    color: rgb(153, 13, 19);
+
+}
+/* correct answer */
+.correct{
+    background-color: rgba(22, 183, 19, 0.297);
+    border-color: rgb(14, 130, 12);
+    color: rgb(14, 130, 12);
 
 }
 
