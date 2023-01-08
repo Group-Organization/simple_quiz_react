@@ -15,6 +15,8 @@ function App() {
   const [selected, setSelected] = useState({})
   // keep track of result
   const [result, setResult]= useState(0)
+  // keep track of global score
+  const[globalScore, setGlobalScore] = useState(0)
 
 
   // on round update sends a request to API
@@ -31,11 +33,15 @@ function App() {
         setSelected(userAnswers)
 
 
-        // map the received object to just store relevant informations and decode all html via helper function
+        // add all answer options in one key, then decode the html content
         let quizData = data.results.map((quest) => ({
             question: `${decodeHtml(quest.question)}`,
-            incorrect_answers:quest.incorrect_answers.map(val => decodeHtml(val)),
+            all_answers: shuffle(
+                            decodeHtml(
+                                    [...quest.incorrect_answers, quest.correct_answer]
+                                    )),
             correct_answer: decodeHtml(quest.correct_answer),
+
         }));
         return setQuiz(quizData);
       });
@@ -47,36 +53,20 @@ function App() {
     setSelected(prevState =>({...prevState, [id] :  prevState[id]== userChoice? "" : userChoice }))
   }
 
-  function sortAnswersOnce(original, copy){
-
-    console.log("original : ", original, "copy", copy)
-    // if it is TRUE that the 2 arrays are not equal, execute the shuffling
-    if (JSON.stringify(original) != JSON.stringify(copy)){
-        return copy.sort(() => Math.random() - 0.5)
-    }else{
-        console.log("else-copy", copy)
-        return copy
-    }
-
+  function shuffle(arr){
+        return arr.sort(() => Math.random() - 0.5)
 
   }
 
   // generate <Question /> components, passing question, answer-options, the `selected` value for this question component and the function to handle setSelected
   const questions = quiz.map((item, index) => {
 
-    // create copy of answers array to use for shuffling
-    // then pass the props after checking if it is already shuffled
-    let allAnswers = [...item.incorrect_answers, item.correct_answer]
-
-    let answers = [... allAnswers].sort(() => Math.random() - 0.5)
-    console.log("1 allAnswers : ", allAnswers, "answers-copy : ", answers)
-
     return (
         <Question
         key={index}
         id={index}
         question={item.question}
-        choices={sortAnswersOnce(allAnswers, answers)}
+        answers={item.all_answers}
         selected={selected[index]}
         correct_answer={quiz[index].correct_answer}
         gameEnded={gameEnded}
@@ -86,14 +76,15 @@ function App() {
 
     useEffect(()=>{
         if(gameEnded == true){
-            console.log("qui")
-            function submitAnswers(){
+
+            let score = 0
             // map over quiz array, for each question check if correct_answer == selected[id] value
             quiz.map((question, index) => {
-                setResult(()=> {
-                    question.correct_answer == selected[index] ? result + 1 : result
-                })
-            })}
+                score = question.correct_answer == selected[index] ? score + 1 : score
+
+            })
+        setResult(score)
+
         }
         /* else { MA NON SO se ha senso in quanto non so se vengono azionati ogni volta che viene cliccato il tasto e la condizione è `false`, può essere che non vengano mai azionati
             setSelected({})
@@ -102,17 +93,27 @@ function App() {
         } */
     }, [gameEnded])
 
+
+
+    function newGame(){
+        setRound(round => round +1)
+        setGlobalScore(prevScore => prevScore + result)
+
+        setGameEnded(false)
+    }
+
   return (
       <div className="App">
       {gameEnded && result == 5 && <Confetti />}
 
     <div className="round-counter"> Round: {round}</div>
+    <div className="round-counter"> Global Score: {globalScore} / {round * 3}</div>
 
     {/* if round == 0 ? welcome screen + btn : game page at round 1+ */}
 
       {questions}
       {gameEnded ? (<button className="new-game"
-                onClick={() => setRound(round => round +1)}
+                onClick={() => newGame()}
                 >Play Again?</button>)
 
             :  (<button className="submit"
