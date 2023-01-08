@@ -104,7 +104,7 @@ function App() {
 
   return (
       <div className="App">
-      {gameEnded && result == 5 && <Confetti />}
+      {gameEnded && result == 3 && <Confetti />}
 
     <div className="round-counter"> Round: {round}</div>
     <div className="round-counter"> Global Score: {globalScore} / {round * 3}</div>
