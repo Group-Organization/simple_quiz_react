@@ -1,107 +1,197 @@
 * {
-    box-sizing: border-box;
-    font-family: Karla, sans-serif;
+  box-sizing: border-box;
+  font-family: Karla, sans-serif;
+  margin: 0;
+}
+html {
+  background-color: #282c34;
+}
+
+.QuizApp {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* navbar should be 30 - 70 empty space */
+nav {
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 55%, rgba(0,216,255,0.34090909090909094) 100%);
+  display: flex;
+  justify-content: start;
+  align-items: end;
+  min-width: 100%;
+  height: 55px;
+}
+
+
+/* logo rotation */
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+.rotate {
+    animation: rotation 4s infinite linear;
   }
 
-body{
-    height: 100vh;
+  /* navbar content is in the 1/3 of the screen */
+.navbar-content{
     display:flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(208, 0, 255, 0.501);
-}
-.temp-logo{
-    width: 500px;
-    height: 500px;
-    position:absolute;
+    justify-content: end;
+    flex-basis: 40%;
+    gap: 20px;
+    color:whitesmoke
 }
 
-/* TODO edit this root component and .App */
-#root, .App{
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-    padding:20px;
-    border-radius: 50px;
-    background-color: white;
-}
+/*  App either contains Homepage or Quiz */
 .App {
-    flex-grow: grow;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  position:relative
 }
 
-.round-counter{
-    background-color: green;
-    margin:18px;
-    margin-top: -15px;;
-    padding:15px;
-    border-radius: 20px;;
+/* homepage */
+.homepage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+.homepage-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 40%;
+}
+.homepage-hero > h1 {
+  font-size: 45px;
+  color: rgb(190, 237, 255);
+  font-weight: bold;
+  background: linear-gradient(90deg, red, orange, yellow, green, teal, purple);
+  background-clip: text;
+  -webkit-background-clip: text;
+  margin: 0px;
+}
+.homepage-hero > h1:hover {
+  color: transparent;
+  transition: 500ms ease;
+}
 
+/* game setting holds temp-setting div and Start button */
+.game-setting {
+  flex-basis: 60%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+}
+.temp-setting {
+    display:flex;
+    justify-content: center;
+    border: 1px solid teal;
+  opacity: 20%;
+}
+.start-button {
+  display: block;
+  margin: 5px;
+  padding: 8px;
+  border-radius: 10px;
+  border-bottom: 3px solid #00778c;
+  font-size: 18px;
+  font-weight: bolder;
+  color: #00778c;
+}
+.start-button:hover {
+  background-color: transparent;
+
+  border: 1px solid #00d8ff;
+  border-bottom: 3px solid #00d8ff;
+  color: whitesmoke;
+
+  box-shadow: 0px 18px 22px 8px #00778c6b;
+}
+/* end of Homepage */
+
+
+/*  start Quiz */
+
+.round-counter {
+    position: absolute;
+  background-color: green;
+  margin: 18px;
+  padding: 15px;
+  border-radius: 20px;
 }
 
 .question {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(137, 43, 226, 0.245);
-    border-radius: 35px;
-    border-bottom: 5px solid rgba(0, 0, 0, 0.505);
-    color: blueviolet;
-    font-size: 22px;
-    padding: 15px;
-    padding-bottom:15px;
-    margin-bottom:20px;
-    width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(137, 43, 226, 0.245);
+  border-radius: 35px;
+  border-bottom: 5px solid rgba(0, 0, 0, 0.505);
+  color: blueviolet;
+  font-size: 22px;
+  padding: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  width: 70%;
 }
 
-.choices{
-    display:flex;
-    flex-wrap: wrap ;
-    justify-content: center;
-    flex-grow: grow;
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-grow: grow;
 }
 
 /* style for unselected answers */
-.option{
-    display: block;
-    margin: 5px;
-    padding:8px;
-    border-color: blueviolet;
-    border-radius:12px;
-    font-size:18px;
-    font-weight: bolder;
-    color:purple;
+.option {
+  display: block;
+  margin: 5px;
+  padding: 8px;
+  border-color: blueviolet;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bolder;
+  color: purple;
 }
 
 /* user selected answer */
-.selected{
-    background-color: rgba(19, 109, 183, 0.297);
-    border-color: rgba(19, 109, 183);
-    color: rgb(13, 78, 131);
-
+.selected {
+  background-color: rgba(19, 109, 183, 0.297);
+  border-color: rgba(19, 109, 183);
+  color: rgb(13, 78, 131);
 }
 /* wrong answer */
-.wrong{
-    background-color: rgba(183, 19, 19, 0.297);
-    border-color: rgb(153, 13, 19);
-    color: rgb(153, 13, 19);
-
+.wrong {
+  background-color: rgba(183, 19, 19, 0.297);
+  border-color: rgb(153, 13, 19);
+  color: rgb(153, 13, 19);
 }
 /* correct answer */
-.correct{
-    background-color: rgba(22, 183, 19, 0.297);
-    border-color: rgb(14, 130, 12);
-    color: rgb(14, 130, 12);
-
+.correct {
+  background-color: rgba(22, 183, 19, 0.297);
+  border-color: rgb(14, 130, 12);
+  color: rgb(14, 130, 12);
 }
 
-.submit, .new-game{
-    background-color: blueviolet;
-    padding: 10px;
-    border-radius:6px;
-    font-size:15px;
-    font-weight: bold;
-    color:white;
+.submit,
+.new-game {
+  background-color: blueviolet;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
 }
