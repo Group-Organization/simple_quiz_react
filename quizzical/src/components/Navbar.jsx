@@ -3,6 +3,9 @@ import reactLogo from '../assets/react.svg'
 
 export default function Navbar(){
 return (<nav>
-    <img src={reactLogo} alt="react-logo" className='temp-logo' />
+<div className='navbar-content'>
+    <img src={reactLogo} alt="react-logo" className='temp-logo rotate' />
+    <h1>QuizzApp</h1>
+</div>
 </nav>)
 }

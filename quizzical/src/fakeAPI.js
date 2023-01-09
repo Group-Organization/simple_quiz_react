@@ -13,7 +13,12 @@ export default {
         "Stephen Curry"
       ]
     },
-    {
+
+  ]
+}
+
+
+/*{
       "category": "Entertainment: Video Games",
       "type": "multiple",
       "difficulty": "easy",
@@ -44,6 +49,4 @@ export default {
       "question": "In &quot;Team Fortress 2&quot;, what is the fastest taunt kill that can be pulled off?",
       "correct_answer": "Showdown",
       "incorrect_answers": ["Hadouken", "Organ Grinder", "Skewer"]
-    }
-  ]
-}
+    } */
