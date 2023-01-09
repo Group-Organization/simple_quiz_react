@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import { decodeHtml, shuffle } from "../helper_functions/";
 import Question from "./Question";
 import Confetti from "react-confetti";
-import Navbar from "./Navbar";
 import fakeAPI from "../fakeAPI";
 
 // getting props from App and unpacking
-export default function Quiz({setRound, round}) {
-
+export default function Quiz({ setRound, round }) {
   // keep track of result for the round
   const [result, setResult] = useState(0);
   // keep track of global score
@@ -24,7 +22,7 @@ export default function Quiz({setRound, round}) {
   useEffect(() => {
     // ==== REAL API CALL ===========================================================
 
-    /*fetch("https://opentdb.com/api.php?amount=3&type=multiple")
+    fetch("https://opentdb.com/api.php?amount=5&type=multiple")
       .then((res) => res.json())
       .then((data) => {
         // create dynamic object based on num of questions to store user answers
@@ -43,9 +41,10 @@ export default function Quiz({setRound, round}) {
           correct_answer: decodeHtml(quest.correct_answer),
         }));
         return setQuiz(quizData);
-      });*/
+      });
     // ==== END REAL API CALL ===========================================================
 
+    /*
     // ======= TEMP FAKE API CALL ============================================================
     // getting data from a local file copy from openTDB,
     // same as the API, reduce() creates an object for storing userAnswers
@@ -69,6 +68,10 @@ export default function Quiz({setRound, round}) {
     setQuiz(testData);
 
     // ======= END TEMP FAKE API CALL ============================================================
+*/
+
+
+
   }, [round]);
 
   // updates the `selected` state object to store userChoice for the corresponding question id
@@ -113,41 +116,44 @@ export default function Quiz({setRound, round}) {
     setGameEnded(false);
   }
 
-  // TODO add and edit Navbar
-  // <Navbar />
-
-
-
-
   return (
     <div className="Quiz">
-
       {gameEnded && result == 5 && <Confetti />}
-
-      <div className="round-counter"> Round: {round}</div>
-      <div className="round-counter">
-        {" "}
-        Global Score: {globalScore} / {round * 3}
+      <div className="counters">
+        <div>
+          <span className="counter"> Round: </span>{" "}
+          <span className="counter-result">{round}</span>
+        </div>
+        <div>
+          <span className="counter">Global Score: </span>
+          <span className="counter-result">
+            {globalScore} / {round == 1 ? 0 : (round - 1) * 5}
+          </span>
+        </div>
+        {gameEnded && <div className="round-result"> correct = {result}/5</div>}
       </div>
-
-
-
 
       {questions}
 
-      {gameEnded ? (
-        <button className="new-game" onClick={() => newGame()}>
-          Play Again?
-        </button>
-      ) : (
-        <button className="submit" onClick={() => setGameEnded(true)}>
-          Submit
-        </button>
-      )}
-
-      {gameEnded && <div> correct = {result}/NUM OF QUESTIONS</div>}
-
-        <button onClick={()=> setRound(0)}>Homepage</button>
+      <div className="quiz-buttons ">
+        <div className="btn-1">
+          <button className="homepage-button" onClick={() => setRound(0)}>
+            {" "}
+            &larr; Home
+          </button>
+        </div>
+        <div className="btn-2">
+          {gameEnded ? (
+            <button className="new-game" onClick={() => newGame()}>
+              Play Again?
+            </button>
+          ) : (
+            <button className="submit" onClick={() => setGameEnded(true)}>
+              Submit
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
